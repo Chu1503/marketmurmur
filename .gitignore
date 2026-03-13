@@ -1,0 +1,15 @@
+.env
+*.env
+venv/
+dist/
+build/
+data/
+*.csv
+*.parquet
+notebooks/.ipynb_checkpoints/
+*.json
+!package.json
+*.log
+logs/
+.vscode/
+.idea/
