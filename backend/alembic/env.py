@@ -13,12 +13,12 @@ config = context.config
 
 database_url = os.environ.get("DATABASE_URL")
 if database_url:
+    database_url = database_url.replace("?pgbouncer=true", "").replace("&pgbouncer=true", "")
     config.set_main_option("sqlalchemy.url", database_url)
 
 fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
-
 
 def run_migrations_offline() -> None:
     url = config.get_main_option("sqlalchemy.url")
