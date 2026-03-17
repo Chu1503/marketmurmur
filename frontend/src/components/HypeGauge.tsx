@@ -40,7 +40,7 @@ export default function HypeGauge({ score }: Props) {
     label === "Overhyped" && "bg-red-900/50 text-red-300 border border-red-800",
     label === "Aligned" &&
       "bg-emerald-900/50 text-emerald-300 border border-emerald-800",
-    label === "Undervalued" &&
+    label === "Undervalued buzz" &&
       "bg-blue-900/50 text-blue-300 border border-blue-800"
   );
 

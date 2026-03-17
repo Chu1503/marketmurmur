@@ -8,7 +8,20 @@ from app.models.company import Company
 from app.models.scores import HypeScore
 from app.services.data_transformer import get_clean_prices, get_clean_news, get_price_momentum
 from app.services.competitor import get_competitor_comparison
+from app.services.company_lookup import get_or_create_company
 import json
+import math
+
+def sanitize_json(obj):
+    if isinstance(obj, float):
+        if math.isnan(obj) or math.isinf(obj):
+            return None
+        return obj
+    if isinstance(obj, dict):
+        return {k: sanitize_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_json(i) for i in obj]
+    return obj
 
 settings = get_settings()
 
@@ -56,10 +69,13 @@ def get_dashboard(ticker: str, db: Session = Depends(get_db)):
     into one response so the frontend makes one HTTP request.
     """
     ticker  = ticker.upper()
-    company = db.query(Company).filter(Company.ticker == ticker).first()
+    company = get_or_create_company(db, ticker)
 
     if not company:
-        raise HTTPException(status_code=404, detail=f"Company '{ticker}' not found")
+        raise HTTPException(
+            status_code=404,
+            detail=f"Company '{ticker}' not found or invalid ticker"
+        )
 
     latest_score = (
         db.query(HypeScore)
@@ -67,6 +83,21 @@ def get_dashboard(ticker: str, db: Session = Depends(get_db)):
         .order_by(HypeScore.calculated_at.desc())
         .first()
     )
+
+    if not latest_score:
+        try:
+            from app.services.sentiment import run_sentiment_analysis
+            from app.services.hype_score import compute_and_save_hype_score
+            run_sentiment_analysis(db, ticker)
+            compute_and_save_hype_score(db, ticker)
+            latest_score = (
+                db.query(HypeScore)
+                .filter(HypeScore.ticker == ticker)
+                .order_by(HypeScore.calculated_at.desc())
+                .first()
+            )
+        except Exception as e:
+            print(f"  Could not compute score for {ticker}: {e}")
 
     score_data = None
     if latest_score:
@@ -118,8 +149,8 @@ def get_dashboard(ticker: str, db: Session = Depends(get_db)):
     # Competitor Comparison
     comparison = get_competitor_comparison(db, ticker)
 
-    return {
-        "company":    {
+    response = {
+        "company":     {
             "ticker":      company.ticker,
             "name":        company.name,
             "sector":      company.sector,
@@ -135,6 +166,7 @@ def get_dashboard(ticker: str, db: Session = Depends(get_db)):
         "news":       articles,
         "competitors": comparison["comparisons"],
     }
+    return sanitize_json(response)
 
 @app.post("/api/v1/run/stocks")
 def trigger_stock_collector(db: Session = Depends(get_db)):

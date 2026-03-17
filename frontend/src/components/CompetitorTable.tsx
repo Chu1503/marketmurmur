@@ -20,7 +20,7 @@ function LabelBadge({ label }: { label?: string }) {
         "text-xs px-2 py-0.5 rounded-full font-medium",
         label === "Overhyped" && "bg-red-900/50 text-red-300",
         label === "Aligned" && "bg-emerald-900/50 text-emerald-300",
-        label === "Undervalued" && "bg-blue-900/50 text-blue-300"
+        label === "Undervalued buzz" && "bg-blue-900/50 text-blue-300"
       )}
     >
       {label}

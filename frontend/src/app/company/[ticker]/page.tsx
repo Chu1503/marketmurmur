@@ -52,7 +52,7 @@ export default async function CompanyPage({ params }: Props) {
               {ticker}
             </h1>
 
-            {score && (
+            {/* {score && (
               <span
                 className={[
                   "px-3 py-1 rounded-full text-sm font-semibold",
@@ -69,7 +69,7 @@ export default async function CompanyPage({ params }: Props) {
               >
                 {score.label}
               </span>
-            )}
+            )} */}
           </div>
 
           <p className="text-gray-400 mt-1">{company.name}</p>

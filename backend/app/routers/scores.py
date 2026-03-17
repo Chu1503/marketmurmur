@@ -5,6 +5,18 @@ from app.models.company import Company
 from app.models.scores import HypeScore
 from app.services.hype_score import compute_and_save_hype_score
 import json
+import math
+
+def sanitize_json(obj):
+    if isinstance(obj, float):
+        if math.isnan(obj) or math.isinf(obj):
+            return None
+        return obj
+    if isinstance(obj, dict):
+        return {k: sanitize_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_json(i) for i in obj]
+    return obj
 
 router = APIRouter()
 
@@ -37,7 +49,7 @@ def get_scores(ticker: str, db: Session = Depends(get_db)):
         except json.JSONDecodeError:
             breakdown = {}
 
-    return {
+    return sanitize_json({
         "ticker":         ticker,
         "calculated_at":  str(latest.calculated_at),
         "hype_score":     latest.hype_score,
@@ -45,7 +57,7 @@ def get_scores(ticker: str, db: Session = Depends(get_db)):
         "hype_gap":       latest.hype_gap,
         "label":          latest.label,
         "breakdown":      breakdown,
-    }
+    })
 
 
 @router.post("/{ticker}/refresh")

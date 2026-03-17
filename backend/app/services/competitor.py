@@ -10,7 +10,7 @@ from app.models.company import Company
 from app.models.scores import HypeScore
 
 
-# Define peer groups — companies that compete in the same space
+# Define peer groups: companies that compete in the same space
 PEER_GROUPS = {
     "NVDA":  ["AMD",   "INTC", "QCOM"],
     "AMD":   ["NVDA",  "INTC", "QCOM"],

@@ -3,13 +3,12 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.company import Company
 from app.services.competitor import get_competitor_comparison
+from app.services.company_lookup import get_or_create_company
 
 router = APIRouter()
 
-
 @router.get("/")
 def list_companies(db: Session = Depends(get_db)):
-    # Return all tracked companies
     companies = db.query(Company).order_by(Company.ticker).all()
     return [
         {
@@ -22,12 +21,10 @@ def list_companies(db: Session = Depends(get_db)):
         for c in companies
     ]
 
-
 @router.get("/{ticker}")
 def get_company(ticker: str, db: Session = Depends(get_db)):
-    # Return full profile for a single company
-    ticker = ticker.upper()
-    company = db.query(Company).filter(Company.ticker == ticker).first()
+    ticker  = ticker.upper()
+    company = get_or_create_company(db, ticker)
 
     if not company:
         raise HTTPException(status_code=404, detail=f"Company '{ticker}' not found")
@@ -47,9 +44,8 @@ def get_company(ticker: str, db: Session = Depends(get_db)):
 
 @router.get("/{ticker}/compare")
 def compare_company(ticker: str, db: Session = Depends(get_db)):
-    # Return competitor comparison table for a ticker
-    ticker = ticker.upper()
-    company = db.query(Company).filter(Company.ticker == ticker).first()
+    ticker  = ticker.upper()
+    company = get_or_create_company(db, ticker)
 
     if not company:
         raise HTTPException(status_code=404, detail=f"Company '{ticker}' not found")
