@@ -10,6 +10,11 @@ from app.database import Base
 from app.models import Company, Price, NewsArticle, Financials, SentimentScore, HypeScore
 
 config = context.config
+
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    config.set_main_option("sqlalchemy.url", database_url)
+
 fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
