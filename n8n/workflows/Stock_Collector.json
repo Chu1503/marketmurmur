@@ -1,0 +1,64 @@
+{
+  "name": "Stock Collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "33a0bacd-93e3-4adf-bd83-76f9331f4126",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/run/stocks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "94f870f7-6b45-40a6-8767-4731ed7c9973",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "565b5fa0-eeeb-4de4-bb31-9f8dd08944f5",
+  "meta": {
+    "instanceId": "b8384fb36bdb55da2d2a180860db1f647f4a6a0391264ad6f05643ff8fd402b2"
+  },
+  "id": "oITW7wmOdFH7lAbS",
+  "tags": []
+}

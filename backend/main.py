@@ -135,3 +135,50 @@ def get_dashboard(ticker: str, db: Session = Depends(get_db)):
         "news":       articles,
         "competitors": comparison["comparisons"],
     }
+
+@app.post("/api/v1/run/stocks")
+def trigger_stock_collector(db: Session = Depends(get_db)):
+    # Called by n8n every 6 hours to refresh stock prices
+    import sys
+    sys.path.insert(0, ".")
+    from collectors.stock_collector import run
+    try:
+        run()
+        return {"status": "ok", "job": "stock_collector"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/v1/run/news")
+def trigger_news_collector(db: Session = Depends(get_db)):
+    # Called by n8n every 4 hours to fetch new articles
+    from collectors.news_collector import run
+    try:
+        run()
+        return {"status": "ok", "job": "news_collector"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/v1/run/analytics")
+def trigger_analytics(db: Session = Depends(get_db)):
+    # Called by n8n daily to run sentiment analysis and hype scores
+    from app.services.sentiment import run_full_sentiment_pipeline
+    from app.services.hype_score import run_all_hype_scores
+    try:
+        run_full_sentiment_pipeline(db)
+        run_all_hype_scores(db)
+        return {"status": "ok", "job": "analytics"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/v1/run/financials")
+def trigger_financials_collector(db: Session = Depends(get_db)):
+    # Called by n8n daily to refresh financial metrics
+    from collectors.financials_collector import run
+    try:
+        run()
+        return {"status": "ok", "job": "financials_collector"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

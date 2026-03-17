@@ -1,0 +1,64 @@
+{
+  "name": "News Collector",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "66fdbbed-68b8-446e-aaa9-9ac114375797",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/api/v1/run/news",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "2691a1c2-c667-420b-9a5e-ab0db0c83cd0",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2369f75e-f1f8-43ce-a806-69c7e17ff7d9",
+  "meta": {
+    "instanceId": "b8384fb36bdb55da2d2a180860db1f647f4a6a0391264ad6f05643ff8fd402b2"
+  },
+  "id": "IsmpiIC0Tqa7TeWu",
+  "tags": []
+}
