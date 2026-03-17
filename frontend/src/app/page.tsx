@@ -27,7 +27,7 @@ export default async function HomePage() {
           <h2 className="text-lg font-semibold text-white mb-4">
             Hype Gap Leaderboard
             <span className="text-sm font-normal text-gray-500 ml-2">
-              sorted by most overhyped
+              (sorted by most overhyped)
             </span>
           </h2>
           <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">

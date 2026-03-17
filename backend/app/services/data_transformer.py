@@ -100,6 +100,7 @@ def get_clean_news(db: Session, ticker: str, days: int = 7) -> pd.DataFrame:
         "id":                 r.id,
         "title":              r.title,
         "summary":            r.summary or "",
+        "url":                r.url or "",
         "source":             r.source or "",
         "published_at":       r.published_at,
         "sentiment_compound": r.sentiment_compound,

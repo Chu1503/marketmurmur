@@ -139,10 +139,11 @@ def get_dashboard(ticker: str, db: Session = Depends(get_db)):
     if not news_df.empty:
         for _, row in news_df.head(10).iterrows():
             articles.append({
-                "title":           row["title"],
-                "source":          row["source"],
-                "published_at":    str(row["published_at"]),
-                "sentiment_label": row["sentiment_label"],
+                "title":              row["title"],
+                "source":             row["source"],
+                "published_at":       str(row["published_at"]),
+                "url":                row.get("url"),
+                "sentiment_label":    row["sentiment_label"],
                 "sentiment_compound": row["sentiment_compound"],
             })
 

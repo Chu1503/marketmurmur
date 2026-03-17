@@ -24,6 +24,7 @@ export interface NewsArticle {
   title:               string;
   source:              string;
   published_at:        string;
+  url:                 string | null;
   sentiment_label:     string | null;
   sentiment_compound:  number | null;
 }
