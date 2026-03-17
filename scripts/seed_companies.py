@@ -1,6 +1,9 @@
 import sys
 import os
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, '/app')
 
 from app.database import SessionLocal
 from app.models.company import Company
