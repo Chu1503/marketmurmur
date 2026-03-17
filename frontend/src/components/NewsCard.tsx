@@ -29,7 +29,7 @@ export default function NewsCard({ articles }: Props) {
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 space-y-1">
-      <h3 className="font-semibold text-white mb-3">Recent news</h3>
+      <h3 className="font-semibold text-white mb-3">Recent News</h3>
       {articles.map((article, i) => (
         <div
           key={i}

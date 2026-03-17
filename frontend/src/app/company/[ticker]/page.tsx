@@ -6,6 +6,7 @@ import NewsCard from "@/components/NewsCard";
 import CompetitorTable from "@/components/CompetitorTable";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import DriversCard from "@/components/DriversCard";
 
 interface Props {
   params: Promise<{ ticker: string }>;
@@ -41,7 +42,7 @@ export default async function CompanyPage({ params }: Props) {
         className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-white transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        All companies
+        Home
       </a>
 
       <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -61,7 +62,7 @@ export default async function CompanyPage({ params }: Props) {
                   score.label === "Aligned"
                     ? "bg-emerald-900/50 text-emerald-300 border border-emerald-800"
                     : "",
-                  score.label === "Undervalued buzz"
+                  score.label === "Undervalued"
                     ? "bg-blue-900/50 text-blue-300 border border-blue-800"
                     : "",
                 ].join(" ")}
@@ -125,20 +126,23 @@ export default async function CompanyPage({ params }: Props) {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2">
-          <StockChart prices={prices} ticker={ticker} />
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+          <div className="lg:col-span-2">
+            <StockChart prices={prices} ticker={ticker} />
+          </div>
+          <div>
+            {score ? (
+              <HypeGauge score={score} />
+            ) : (
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 text-gray-500 text-sm h-full flex items-center justify-center">
+                No score computed yet
+              </div>
+            )}
+          </div>
         </div>
 
-        <div>
-          {score ? (
-            <HypeGauge score={score} />
-          ) : (
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 text-gray-500 text-sm h-full flex items-center justify-center">
-              No score computed yet
-            </div>
-          )}
-        </div>
+        {score?.breakdown && <DriversCard breakdown={score.breakdown} />}
       </div>
 
       {company.description && (

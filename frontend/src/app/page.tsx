@@ -7,18 +7,17 @@ export default async function HomePage() {
   let leaderboard: LeaderboardEntry[] = [];
   try {
     leaderboard = await fetchLeaderboard();
-  } catch {
-  }
+  } catch {}
 
   return (
     <div className="space-y-12">
       <div className="text-center space-y-4 pt-8">
         <h1 className="text-4xl font-bold text-white">
-          Market <span className="text-violet-400">Intelligence</span>
+          Market <span className="text-violet-400">Murmur</span>
         </h1>
         <p className="text-gray-400 text-lg max-w-xl mx-auto">
-          Search any public company to see its Hype vs Fundamentals Score,
-          stock trends, news sentiment, and competitor comparison.
+          Search any public company to see its Hype vs Fundamentals Score, stock
+          trends, news sentiment, and competitor comparison.
         </p>
         <SearchBar />
       </div>
@@ -49,7 +48,10 @@ export default async function HomePage() {
                     className="border-b border-gray-800/50 last:border-0 hover:bg-gray-800/30 transition-colors"
                   >
                     <td className="px-4 py-3">
-                      <a href={`/company/${entry.ticker}`} className="flex items-center gap-3 group">
+                      <a
+                        href={`/company/${entry.ticker}`}
+                        className="flex items-center gap-3 group"
+                      >
                         <span className="font-mono font-semibold text-white group-hover:text-violet-400 transition-colors">
                           {entry.ticker}
                         </span>
@@ -64,21 +66,29 @@ export default async function HomePage() {
                     <td className="px-4 py-3 text-right font-mono text-violet-400">
                       {entry.fund_score.toFixed(1)}
                     </td>
-                    <td className={clsx(
-                      "px-4 py-3 text-right font-mono font-semibold",
-                      entry.hype_gap >  20 && "text-red-400",
-                      entry.hype_gap < -20 && "text-blue-400",
-                      Math.abs(entry.hype_gap) <= 20 && "text-emerald-400",
-                    )}>
-                      {entry.hype_gap > 0 ? "+" : ""}{entry.hype_gap.toFixed(1)}
+                    <td
+                      className={clsx(
+                        "px-4 py-3 text-right font-mono font-semibold",
+                        entry.hype_gap > 20 && "text-red-400",
+                        entry.hype_gap < -20 && "text-blue-400",
+                        Math.abs(entry.hype_gap) <= 20 && "text-emerald-400"
+                      )}
+                    >
+                      {entry.hype_gap > 0 ? "+" : ""}
+                      {entry.hype_gap.toFixed(1)}
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <span className={clsx(
-                        "text-xs px-2 py-0.5 rounded-full font-medium",
-                        entry.label === "Overhyped"        && "bg-red-900/50 text-red-300",
-                        entry.label === "Aligned"          && "bg-emerald-900/50 text-emerald-300",
-                        entry.label === "Undervalued buzz" && "bg-blue-900/50 text-blue-300",
-                      )}>
+                      <span
+                        className={clsx(
+                          "text-xs px-2 py-0.5 rounded-full font-medium",
+                          entry.label === "Overhyped" &&
+                            "bg-red-900/50 text-red-300",
+                          entry.label === "Aligned" &&
+                            "bg-emerald-900/50 text-emerald-300",
+                          entry.label === "Undervalued" &&
+                            "bg-blue-900/50 text-blue-300"
+                        )}
+                      >
                         {entry.label}
                       </span>
                     </td>

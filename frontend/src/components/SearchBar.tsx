@@ -23,7 +23,7 @@ export default function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value.toUpperCase())}
-          placeholder="Search ticker — NVDA, AAPL, TSLA..."
+          placeholder=""
           className="w-full bg-gray-900 border border-gray-700 rounded-xl pl-12 pr-4 py-4
                      text-white placeholder-gray-500 text-lg
                      focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500

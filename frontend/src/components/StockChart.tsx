@@ -36,7 +36,7 @@ export default function StockChart({ prices, ticker }: Props) {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-white">{ticker} — 90 day price</h3>
+        <h3 className="font-semibold text-white">{ticker} (90 day price)</h3>
         <span className={`text-sm font-mono font-medium
           ${isUp ? "text-emerald-400" : "text-red-400"}`}>
           ${lastClose.toFixed(2)}
