@@ -45,7 +45,7 @@ export default function SearchBar() {
           type="submit"
           disabled={loading || !query.trim()}
           className="absolute right-3 top-1/2 -translate-y-1/2
-                     bg-violet-600 hover:bg-violet-500 disabled:bg-violet-900
+                     bg-black hover:bg-black/50 hover:cursor-pointer disabled:bg-black
                      disabled:cursor-not-allowed text-white
                      px-4 py-2 rounded-lg text-sm font-medium transition-colors
                      flex items-center gap-2 min-w-22.5 justify-center"

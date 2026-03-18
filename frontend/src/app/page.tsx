@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { fetchLeaderboard } from "@/lib/api";
 import type { LeaderboardEntry } from "@/lib/api";
 import { clsx } from "clsx";
+import Image from "next/image";
 
 export default async function HomePage() {
   let leaderboard: LeaderboardEntry[] = [];
@@ -13,8 +14,17 @@ export default async function HomePage() {
   return (
     <div className="space-y-12">
       <div className="text-center space-y-4 pt-8">
+        <Image
+          src="/marketmurmur-logo.png"
+          alt="MarketMurmur"
+          width={120}
+          height={120}
+          className="w-24 h-24 object-contain mx-auto"
+          priority
+        />
         <h1 className="text-4xl font-bold text-white">
-          Market <span className="text-violet-400">Murmur</span>
+          <span className="text-amber-400">Market</span>
+          <span className="text-violet-400">Murmur</span>
         </h1>
         <p className="text-gray-400 text-lg max-w-3xl mx-auto">
           A market intelligence platform that tracks public companies and shows
