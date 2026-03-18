@@ -1,3 +1,4 @@
+import AboutModal from "@/components/AboutModal";
 import SearchBar from "@/components/SearchBar";
 import { fetchLeaderboard } from "@/lib/api";
 import type { LeaderboardEntry } from "@/lib/api";
@@ -15,10 +16,12 @@ export default async function HomePage() {
         <h1 className="text-4xl font-bold text-white">
           Market <span className="text-violet-400">Murmur</span>
         </h1>
-        <p className="text-gray-400 text-lg max-w-xl mx-auto">
-          Search any public company to see its Hype vs Fundamentals Score, stock
-          trends, news sentiment, and competitor comparison.
+        <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+          A market intelligence platform that tracks public companies and shows
+          you whether the media hype around them matches their actual financial
+          performance
         </p>
+        <AboutModal />
         <SearchBar />
       </div>
 

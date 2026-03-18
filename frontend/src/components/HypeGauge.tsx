@@ -1,5 +1,7 @@
 import { clsx } from "clsx";
 import type { Score } from "@/lib/api";
+import Tooltip from "@/components/Tooltip";
+import { DEFINITIONS } from "@/lib/definitions";
 
 interface Props {
   score: Score;
@@ -9,15 +11,20 @@ function Bar({
   label,
   value,
   color,
+  tooltip,
 }: {
   label: string;
   value: number;
   color: string;
+  tooltip?: string;
 }) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       <div className="flex justify-between text-xs text-gray-400">
-        <span>{label}</span>
+        <span className="flex items-center">
+          {label}
+          {tooltip && <Tooltip text={tooltip} />}
+        </span>
         <span className="font-mono font-medium text-white">
           {value.toFixed(1)}
         </span>
@@ -56,11 +63,17 @@ export default function HypeGauge({ score }: Props) {
       <h3 className="font-semibold text-white">Hype vs Fundamentals</h3>
 
       <div className="space-y-3">
-        <Bar label="Hype Score" value={hype_score} color="bg-amber-500" />
+        <Bar
+          label="Hype Score"
+          value={hype_score}
+          color="bg-amber-500"
+          tooltip={DEFINITIONS.hype_score}
+        />
         <Bar
           label="Fundamentals Score"
           value={fund_score}
           color="bg-violet-500"
+          tooltip={DEFINITIONS.fund_score}
         />
       </div>
 
