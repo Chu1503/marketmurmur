@@ -82,13 +82,10 @@ export default function AboutModal() {
                   <p className="text-sm font-medium text-white mb-1">
                     {s.title}
                   </p>
-                  <div className="text-sm text-gray-400 leading-relaxed space-y-1">
-                    {Array.isArray(s.content) ? (
-                      s.content.map((line, i) => <p key={i}>{line}</p>)
-                    ) : (
-                      <p>{s.content}</p>
-                    )}
-                  </div>
+
+                  <p className="text-sm text-gray-400 leading-relaxed">
+                    {s.content}
+                  </p>
                 </div>
               ))}
 
@@ -140,13 +137,9 @@ export default function AboutModal() {
                         {m.name}
                       </p>
 
-                      <div className="text-xs text-gray-400 leading-relaxed space-y-0.5">
-                        {Array.isArray(m.def) ? (
-                          m.def.map((line, i) => <p key={i}>{line}</p>)
-                        ) : (
-                          <p>{m.def}</p>
-                        )}
-                      </div>
+                      <p className="text-xs text-gray-400 leading-relaxed">
+                        {m.def}
+                      </p>
                     </div>
                   ))}
                 </div>
