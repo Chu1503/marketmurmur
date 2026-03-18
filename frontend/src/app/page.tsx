@@ -85,7 +85,7 @@ export default async function HomePage() {
                             "bg-red-900/50 text-red-300",
                           entry.label === "Aligned" &&
                             "bg-emerald-900/50 text-emerald-300",
-                          entry.label === "Undervalued buzz" &&
+                          entry.label === "Undervalued" &&
                             "bg-blue-900/50 text-blue-300"
                         )}
                       >

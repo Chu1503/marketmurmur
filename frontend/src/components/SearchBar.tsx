@@ -48,7 +48,7 @@ export default function SearchBar() {
                      bg-violet-600 hover:bg-violet-500 disabled:bg-violet-900
                      disabled:cursor-not-allowed text-white
                      px-4 py-2 rounded-lg text-sm font-medium transition-colors
-                     flex items-center gap-2 min-w-[90px] justify-center"
+                     flex items-center gap-2 min-w-22.5 justify-center"
         >
           {loading ? (
             <>

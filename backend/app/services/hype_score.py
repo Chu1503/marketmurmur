@@ -82,7 +82,7 @@ def determine_label(hype_gap: float) -> str:
     if hype_gap > 20:
         return "Overhyped"
     elif hype_gap < -20:
-        return "Undervalued buzz"
+        return "Undervalued"
     else:
         return "Aligned"
 

@@ -48,7 +48,7 @@ export default function NewsCard({ articles }: Props) {
                 rel="noopener noreferrer"
                 className="text-sm text-gray-200 leading-snug hover:text-violet-400 transition-colors cursor-pointer"
               >
-                {article.title} ↗
+                {article.title}
               </a>
             ) : (
               <p className="text-sm text-gray-200 leading-snug">

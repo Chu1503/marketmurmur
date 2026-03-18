@@ -89,7 +89,7 @@ export default async function CompanyPage({ params }: Props) {
             rel="noopener noreferrer"
             className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
           >
-            {company.website.replace("https://", "")} ↗
+            {company.website.replace("https://", "")}
           </a>
         )}
       </div>
@@ -145,14 +145,14 @@ export default async function CompanyPage({ params }: Props) {
         {score?.breakdown && <DriversCard breakdown={score.breakdown} />}
       </div>
 
-      {company.description && (
+      {/* {company.description && (
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
           <h3 className="font-semibold text-white mb-2">About</h3>
           <p className="text-sm text-gray-400 leading-relaxed line-clamp-4">
             {company.description}
           </p>
         </div>
-      )}
+      )} */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <NewsCard articles={news} />
