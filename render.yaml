@@ -12,3 +12,42 @@ services:
         value: production
       - key: DEBUG
         value: false
+      - key: DATABASE_URL
+        sync: false
+      - key: GUARDIAN_API_KEY
+        sync: false
+
+  - type: cron
+    name: news-collector
+    runtime: python
+    rootDir: backend
+    schedule: "0 */4 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python collectors/news_collector.py
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: GUARDIAN_API_KEY
+        sync: false
+
+  - type: cron
+    name: stock-collector
+    runtime: python
+    rootDir: backend
+    schedule: "0 */6 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python collectors/stock_collector.py
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+
+  - type: cron
+    name: daily-analytics
+    runtime: python
+    rootDir: backend
+    schedule: "0 2 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python collectors/financials_collector.py
+    envVars:
+      - key: DATABASE_URL
+        sync: false

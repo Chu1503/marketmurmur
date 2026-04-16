@@ -12,39 +12,41 @@ from app.config import get_settings
 
 settings = get_settings()
 
+GUARDIAN_API_URL = "https://content.guardianapis.com/search"
+
 
 def fetch_news_for_ticker(company_name: str, ticker: str, days_back: int = 7) -> list:
     """
-    Fetch recent news articles from NewsAPI.
+    Fetch recent news articles from The Guardian API.
     Searches by company name for better results than ticker alone.
     Returns a list of article dicts.
     """
-    if not settings.news_api_key or settings.news_api_key == "your_key_here":
-        print(f"  WARNING: NEWS_API_KEY not set. Skipping news for {ticker}")
+    if not settings.guardian_api_key or settings.guardian_api_key == "your_key_here":
+        print(f"  WARNING: GUARDIAN_API_KEY not set. Skipping news for {ticker}")
         return []
 
     end_date   = datetime.today()
     start_date = end_date - timedelta(days=days_back)
 
-    url = "https://newsapi.org/v2/everything"
     params = {
-        "q":          f'"{company_name}" OR "{ticker}"',
-        "from":       start_date.strftime("%Y-%m-%d"),
-        "to":         end_date.strftime("%Y-%m-%d"),
-        "language":   "en",
-        "sortBy":     "publishedAt",
-        "pageSize":   30,   # max 30 articles per company per run
-        "apiKey":     settings.news_api_key,
+        "q":           f'"{company_name}" OR "{ticker}"',
+        "from-date":   start_date.strftime("%Y-%m-%d"),
+        "to-date":     end_date.strftime("%Y-%m-%d"),
+        "lang":        "en",
+        "order-by":    "newest",
+        "page-size":   30,
+        "show-fields": "headline,trailText",
+        "api-key":     settings.guardian_api_key,
     }
 
     print(f"  Fetching news for {company_name} ({ticker})...")
 
     try:
-        response = requests.get(url, params=params, timeout=10)
+        response = requests.get(GUARDIAN_API_URL, params=params, timeout=10)
         response.raise_for_status()
         data = response.json()
 
-        articles = data.get("articles", [])
+        articles = data.get("response", {}).get("results", [])
         print(f"  Got {len(articles)} articles for {ticker}")
         return articles
 
@@ -55,31 +57,34 @@ def fetch_news_for_ticker(company_name: str, ticker: str, days_back: int = 7) ->
 
 def save_articles(db, ticker: str, articles: list) -> dict:
     """
-    Save news articles to the database.
+    Save Guardian API articles to the database.
     """
     inserted = 0
     skipped  = 0
 
     for article in articles:
-        # Skip articles with no URL or title
-        if not article.get("url") or not article.get("title"):
+        url = article.get("webUrl")
+        if not url:
             continue
 
+        fields    = article.get("fields", {})
+        title     = fields.get("headline") or article.get("webTitle", "")[:500]
+        summary   = fields.get("trailText")
+
         published_at = None
-        if article.get("publishedAt"):
+        raw_date = article.get("webPublicationDate")
+        if raw_date:
             try:
-                published_at = datetime.strptime(
-                    article["publishedAt"], "%Y-%m-%dT%H:%M:%SZ"
-                )
+                published_at = datetime.strptime(raw_date, "%Y-%m-%dT%H:%M:%SZ")
             except ValueError:
                 pass
 
         news = NewsArticle(
             ticker       = ticker,
-            title        = article["title"][:500],
-            summary      = article.get("description") or article.get("content"),
-            url          = article["url"][:1000],
-            source       = article.get("source", {}).get("name"),
+            title        = title[:500],
+            summary      = summary,
+            url          = url[:1000],
+            source       = "The Guardian",
             published_at = published_at,
         )
 
