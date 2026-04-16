@@ -29,7 +29,7 @@ def fetch_news_for_ticker(company_name: str, ticker: str, days_back: int = 7) ->
     start_date = end_date - timedelta(days=days_back)
 
     params = {
-        "q":           f'"{company_name}" OR "{ticker}"',
+        "q":           f'{company_name} OR {ticker}',
         "from-date":   start_date.strftime("%Y-%m-%d"),
         "to-date":     end_date.strftime("%Y-%m-%d"),
         "lang":        "en",
@@ -110,8 +110,20 @@ COMPANY_NAMES = {
     "GOOGL": "Google",
     "META":  "Meta",
     "NFLX":  "Netflix",
-    "AMD":   "AMD",
+    "AMD":   "AMD Advanced Micro Devices",
     "JPM":   "JPMorgan",
+    "ADBE":  "Adobe",
+    "AVGO":  "Broadcom",
+    "LULU":  "Lululemon",
+    "DOCU":  "DocuSign",
+    "TME":   "Tencent Music",
+    "Z":     "Zillow",
+    "HAL":   "Halliburton",
+    "NFE":   "New Fortress Energy",
+    "RCAT":  "Red Cat drone",
+    "TSAT":  "Telesat satellite",
+    "BIAF":  "bioAffinity cancer",
+    "AAMI":  "Acadian Asset Management",
 }
 
 
